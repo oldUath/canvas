@@ -20,7 +20,8 @@
         let ctx = canvas.getContext("2d");
         //填充背景颜色
         ctx.fillStyle = "black";
-        let parinting = false
+        let parinting = false;
+        let last;
 
         //判断是否支持手机触屏
         let isTouchDevice = 'ontouchstart' in document.documentElement;
@@ -34,9 +35,6 @@
             ctx.lineTo(x2, y2);
             ctx.stroke();
         }
-
-
-
 
         if (isTouchDevice) {
             //如果支持就在手机上画线
@@ -52,25 +50,19 @@
 
         } else {
             //如果不支持就在电脑端画线
-            canvas.onmousedown = () => {
+            canvas.onmousedown = (e) => {
                 parinting = true;
+                //记住鼠标的位置
+                last = [e.clientX, e.clientY];
             }
             canvas.onmousemove = (e) => {
                 if (parinting === true) {
-
-                    //fillRect画矩形   arc是圆弧
-                    // ctx.fillRect(e.clientX - 5, e.clientY - 5, 10, 10);
-                    // ctx.beginPath();
-                    // ctx.arc(e.clientX, e.clientY, 5, 0, Math.PI * 2);
-                    // ctx.fill();
-
-
                     //调用画线函数
-                    drawLine(10, 10, e.clientX, e.clientY);
-
+                    drawLine(last[0], last[1], e.clientX, e.clientY);
+                    //记住这次的点
+                    last = [e.clientX, e.clientY];
                 }
             }
-
             canvas.onmouseup = () => {
                 parinting = false;
             }
