@@ -13,13 +13,16 @@
 
     <script>
         let canvas = document.getElementById("canvas");
-        //把画板的宽高设置为屏幕的宽高
+        //把屏幕的宽高设置为画板的宽高
         canvas.width = document.documentElement.clientWidth;
         canvas.height = document.documentElement.clientHeight;
-        //画线  
+        //画线   填充背景颜色和样式
         let ctx = canvas.getContext("2d");
-        //填充背景颜色
         ctx.fillStyle = "black";
+        ctx.lineWidth = 10;
+        // ctx.lineCap = "round";
+
+
         let parinting = false;
         let last;
 
