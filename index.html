@@ -21,22 +21,44 @@
         //填充背景颜色
         ctx.fillStyle = "black";
         let parinting = false
-        canvas.onmousedown = () => {
-            parinting = true;
-        }
-        canvas.onmousemove = (e) => {
-            if (parinting === true) {
-                //fillRect画矩形   arc是圆弧
-                // ctx.fillRect(e.clientX - 5, e.clientY - 5, 10, 10);
+
+        //判断是否支持手机触屏
+        let isTouchDevice = 'ontouchstart' in document.documentElement;
+        console.log(isTouchDevice);
+
+        if (isTouchDevice) {
+            //如果支持就在手机上画线
+            canvas.ontouchmove = (e) => {
+
+                console.log(e);
                 ctx.beginPath();
-                ctx.arc(e.clientX, e.clientY, 5, 0, Math.PI * 2);
+                ctx.arc(e.touches[0].clientX, e.touches[0].clientY, 5, 0, Math.PI * 2);
+                //stroke是描边，fill是填充
                 ctx.stroke();
                 ctx.fill();
+            }
 
-            } else {
-                console.log('不画了');
+        } else {
+            //如果不支持就在电脑端画线
+            canvas.onmousedown = () => {
+                parinting = true;
+            }
+            canvas.onmousemove = (e) => {
+                if (parinting === true) {
+                    //fillRect画矩形   arc是圆弧
+                    // ctx.fillRect(e.clientX - 5, e.clientY - 5, 10, 10);
+                    ctx.beginPath();
+                    ctx.arc(e.clientX, e.clientY, 5, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.fill();
+
+                } else {
+                    console.log('不画了');
+                }
             }
         }
+
+
         canvas.onmouseup = () => {
             parinting = false;
         }
