@@ -16,11 +16,11 @@
         //把屏幕的宽高设置为画板的宽高
         canvas.width = document.documentElement.clientWidth;
         canvas.height = document.documentElement.clientHeight;
-        //画线   填充背景颜色和样式
+        //画线   fillStyle填充背景颜色,lineWidth线条宽度，lineCap线转弯处圆润
         let ctx = canvas.getContext("2d");
         ctx.fillStyle = "black";
         ctx.lineWidth = 10;
-        // ctx.lineCap = "round";
+        ctx.lineCap = "round";
 
 
         let parinting = false;
@@ -29,8 +29,6 @@
         //判断是否支持手机触屏
         let isTouchDevice = 'ontouchstart' in document.documentElement;
         console.log(isTouchDevice);
-
-
         // 描边三角形,画线
         function drawLine(x1, y1, x2, y2) {
             ctx.beginPath();
@@ -40,12 +38,19 @@
         }
 
         if (isTouchDevice) {
+            //手机端第一次触摸时记录位置
+            canvas.ontouchstart = (e) => {
+                last = [e.touches[0].clientX, e.touches[0].clientY];
+                console.log(last[0], last[1]);
+
+            }
+
             //如果支持就在手机上画线
             canvas.ontouchmove = (e) => {
-
-                console.log(e);
-                ctx.beginPath();
-                ctx.arc(e.touches[0].clientX, e.touches[0].clientY, 5, 0, Math.PI * 2);
+                //调用画线函数
+                drawLine(last[0], last[1], e.touches[0].clientX, e.touches[0].clientY);
+                //记住这次的点
+                last = [e.touches[0].clientX, e.touches[0].clientY];
                 //stroke是描边，fill是填充
                 // ctx.stroke();
                 ctx.fill();
