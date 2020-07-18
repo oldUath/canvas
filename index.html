@@ -5,10 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>canvas画图</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <canvas id="canvas"></canvas>
 
+    <script>
+        let canvas = document.getElementById("canvas");
+        //把画板的宽高设置为屏幕的宽高
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+        //画线  
+        let ctx = canvas.getContext("2d");
+        //填充背景颜色
+        ctx.fillStyle = "black";
+        let parinting = false
+        canvas.onmousedown = () => {
+            parinting = true;
+        }
+        canvas.onmousemove = (e) => {
+            if (parinting === true) {
+                //fillRect画矩形   arc是圆弧
+                // ctx.fillRect(e.clientX - 5, e.clientY - 5, 10, 10);
+                ctx.beginPath();
+                ctx.arc(e.clientX, e.clientY, 5, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.fill();
+
+            } else {
+                console.log('不画了');
+            }
+        }
+        canvas.onmouseup = () => {
+            parinting = false;
+        }
+    </script>
 </body>
 
 </html>
